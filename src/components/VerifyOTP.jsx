@@ -1,25 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import './Auth.css';
 
 const VerifyOTP = () => {
   return (
     <div className="container">
+      {/* LEFT PANEL */}
       <div className="left-panel">
         <div className="branding">
-          <h1><span className="large-s">S</span><span className="voice">Voice</span><br /><span className="silent">ilent</span></h1>
-          <p className="tagline">Unbiased and anonymous student reviews</p>
+          <img src="/Logo.png" alt="AnonEdu Logo" className="branding-logo" />
         </div>
       </div>
 
+      {/* RIGHT PANEL */}
       <div className="right-panel">
         <div className="form-box">
           <h2>Verify OTP</h2>
-          <form action="/reset-password">
-            <label>OTP</label>
-            <input type="text" placeholder="Enter OTP" required />
-            <button type="submit" className="submit-btn">Verify</button>
+          <form>
+            <label>Enter OTP</label>
+            <input type="text" placeholder="Enter the OTP sent to your email" required />
+            <button type="submit">Verify</button>
           </form>
-          <p><Link to="/forgot-password">Resend OTP</Link></p>
         </div>
       </div>
     </div>

@@ -1,31 +1,40 @@
 import React from 'react';
+// eslint-disable-next-line no-unused-vars
 import { Link } from 'react-router-dom';
+import './Auth.css'; // Make sure you're importing the shared CSS
 
 const SignupPage = () => {
   return (
     <div className="container">
+      {/* LEFT PANEL */}
       <div className="left-panel">
         <div className="branding">
-          <h1><span className="large-s">S</span><span className="voice">Voice</span><br /><span className="silent">ilent</span></h1>
-          <p className="tagline">Unbiased and anonymous student reviews</p>
+          <img src="/Logo.png" alt="AnonEdu Logo" className="branding-logo" />
         </div>
       </div>
 
+      {/* RIGHT PANEL */}
       <div className="right-panel">
+        <div className="top-buttons">
+          <button onClick={() => window.location.href = '/'}>Login</button>
+          <button className="active">Sign-up</button>
+          <button onClick={() => window.location.href = '/admin'}>Admin</button>
+        </div>
+
         <div className="form-box">
-          <h2>Create an Account</h2>
+          <h2>Sign Up</h2>
           <form>
-            <label>Name</label>
-            <input type="text" placeholder="Enter your name" required />
+            <label>Username</label>
+            <input type="text" placeholder="Enter Username" required />
+
             <label>Email</label>
-            <input type="email" placeholder="Enter your email" required />
+            <input type="email" placeholder="Enter Email" required />
+
             <label>Password</label>
-            <input type="password" placeholder="Create a password" required />
-            <label>Confirm Password</label>
-            <input type="password" placeholder="Confirm your password" required />
+            <input type="password" placeholder="Create Password" required />
+
             <button type="submit" className="submit-btn">Sign Up</button>
           </form>
-          <p><Link to="/">Back to Login</Link></p>
         </div>
       </div>
     </div>
