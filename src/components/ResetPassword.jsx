@@ -1,27 +1,27 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import './Auth.css';
 
 const ResetPassword = () => {
   return (
     <div className="container">
+      {/* LEFT PANEL */}
       <div className="left-panel">
         <div className="branding">
-          <h1><span className="large-s">S</span><span className="voice">Voice</span><br /><span className="silent">ilent</span></h1>
-          <p className="tagline">Unbiased and anonymous student reviews</p>
+          <img src="/Logo.png" alt="AnonEdu Logo" className="branding-logo" />
         </div>
       </div>
 
+      {/* RIGHT PANEL */}
       <div className="right-panel">
         <div className="form-box">
           <h2>Reset Password</h2>
-          <form action="/">
+          <form>
             <label>New Password</label>
-            <input type="password" placeholder="Enter new password" required />
+            <input type="password" placeholder="Enter New Password" required />
             <label>Confirm Password</label>
-            <input type="password" placeholder="Confirm new password" required />
-            <button type="submit" className="submit-btn">Reset Password</button>
+            <input type="password" placeholder="Confirm Password" required />
+            <button type="submit">Reset Password</button>
           </form>
-          <p><Link to="/">Back to Login</Link></p>
         </div>
       </div>
     </div>

@@ -8,23 +8,17 @@ const AdminPage = () => {
       {/* LEFT PANEL */}
       <div className="left-panel">
         <div className="branding">
-          <h1>
-            <span className="large-s">S</span><span className="voice">Voice</span><br />
-            <span className="silent">ilent</span>
-          </h1>
-          <p className="tagline">Unbiased and anonymous student reviews</p>
-          <div className="desc">
-            <strong>Admin Access – Manage Feedback Securely</strong>
-            <p>
-              This portal is for authorized administrators only. Monitor, manage, and respond to
-              anonymous student feedback with full confidentiality and accountability.
-            </p>
-          </div>
+          <img src="/Logo.png" alt="AnonEdu Logo" className="branding-logo" />
         </div>
       </div>
 
       {/* RIGHT PANEL */}
       <div className="right-panel">
+        <div className="top-buttons">
+          <Link to="/signup"><button className="outlined">Sign-up</button></Link>
+          <Link to="/admin"><button className="outlined">Admin</button></Link>
+        </div>
+
         <div className="form-box">
           <h2>Admin Login</h2>
           <form>
