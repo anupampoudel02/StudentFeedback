@@ -44,7 +44,7 @@ body, html {
   border: 1px solid black;
   cursor: pointer;
   margin-left: 10px;
-  border-radius: 20px;
+  border-radius: 12px;
   font-weight: bold;
 }
 
@@ -56,7 +56,8 @@ body, html {
 /* Form Styling */
 .form-box {
   max-width: 350px;
-  margin-top: 100px;
+  margin-top: 200px;
+  margin-left: 70px;
 }
 
 h2 {
@@ -66,31 +67,33 @@ h2 {
 
 label {
   display: block;
-  margin-top: 15px;
+  margin-top: 20px;
   font-size: 14px;
 }
 
 input {
   width: 100%;
+  margin-bottom: 20px;
   padding: 10px;
   margin-top: 5px;
-  border-radius: 6px;
+  border-radius: 10px;
   border: 1px solid #ccc;
 }
 
 .submit-btn {
-  margin-top: 20px;
-  padding: 12px;
-  width: 100%;
-  background: black;
-  color: white;
-  border: none;
-  border-radius: 6px;
+  padding: 8px 25px;
+  background-color: white;
+  border: 1px solid black;
   cursor: pointer;
+  margin-left: 10px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-top: 19px;
 }
 
 .submit-btn:hover {
-  background-color: #333;
+  background-color: black;
+  color: white;
 }
 
 /* Link Styling */
