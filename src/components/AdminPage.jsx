@@ -27,7 +27,7 @@ const AdminPage = () => {
       <div className="right-panel">
         <div className="top-buttons">
           <Link to="/signup"><button className="outlined">Sign-up</button></Link>
-          <Link to="/admin"><button className="outlined">Admin</button></Link>
+          <Link to="/"><button className="outlined">Sign-in</button></Link>
         </div>
 
         <div className="form-box">
@@ -39,7 +39,7 @@ const AdminPage = () => {
             <input type="password" placeholder="Enter Password" required />
             <button type="submit" className="submit-btn">Login</button>
           </form>
-          <p><Link to="/">Back to User Login</Link></p>
+          
         </div>
       </div>
     </div>

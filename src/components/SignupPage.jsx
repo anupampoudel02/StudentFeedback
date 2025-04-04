@@ -27,15 +27,14 @@ const SignupPage = () => {
       <div className="right-panel">
         <div className="top-buttons">
           <button onClick={() => window.location.href = '/'}>Login</button>
-          <button className="active">Sign-up</button>
           <button onClick={() => window.location.href = '/admin'}>Admin</button>
         </div>
 
         <div className="form-box">
           <h2>Sign Up</h2>
           <form>
-            <label>Username</label>
-            <input type="text" placeholder="Enter Username" required />
+            <label>Full Name</label>
+            <input type="text" placeholder="Enter Full Name" required />
 
             <label>Email</label>
             <input type="email" placeholder="Enter Email" required />

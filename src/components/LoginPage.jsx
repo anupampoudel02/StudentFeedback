@@ -36,8 +36,8 @@ const LoginPage = () => {
 
         <div className="form-box">
           <h2>Proceed To Login</h2>
-          <label>Username</label>
-          <input type="text" placeholder="Enter Username" />
+          <label>Email</label>
+          <input type="text" placeholder="Enter Email" />
           <label>Password</label>
           <input type="password" placeholder="Enter Password" />
           <button className="submit-btn">Login</button>
