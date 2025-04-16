@@ -6,10 +6,21 @@ const VerifyOTP = () => {
     <div className="container">
       {/* LEFT PANEL */}
       <div className="left-panel">
-        <div className="branding">
-          <img src="/Logo.png" alt="AnonEdu Logo" className="branding-logo" />
-        </div>
-      </div>
+  <div className="branding">
+    <img src="/Logo.png" alt="AnonEdu Logo" className="branding-logo" />
+
+    <div className="desc">
+      <strong>Silent Voice – Speak Freely, Improve Together</strong>
+      <p>
+        Silent Voice is a secure and anonymous student feedback system
+        designed to bridge the communication gap between students and
+        educators. It allows students to share their thoughts, concerns,
+        and suggestions without revealing their identity, ensuring honest
+        and constructive feedback.
+      </p>
+    </div>
+  </div>
+</div>
 
       {/* RIGHT PANEL */}
       <div className="right-panel">

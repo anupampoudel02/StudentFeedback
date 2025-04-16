@@ -7,16 +7,27 @@ const AdminPage = () => {
     <div className="container">
       {/* LEFT PANEL */}
       <div className="left-panel">
-        <div className="branding">
-          <img src="/Logo.png" alt="AnonEdu Logo" className="branding-logo" />
-        </div>
-      </div>
+  <div className="branding">
+    <img src="/Logo.png" alt="AnonEdu Logo" className="branding-logo" />
+
+    <div className="desc">
+      <strong>Silent Voice – Speak Freely, Improve Together</strong>
+      <p>
+        Silent Voice is a secure and anonymous student feedback system
+        designed to bridge the communication gap between students and
+        educators. It allows students to share their thoughts, concerns,
+        and suggestions without revealing their identity, ensuring honest
+        and constructive feedback.
+      </p>
+    </div>
+  </div>
+</div>
 
       {/* RIGHT PANEL */}
       <div className="right-panel">
         <div className="top-buttons">
           <Link to="/signup"><button className="outlined">Sign-up</button></Link>
-          <Link to="/admin"><button className="outlined">Admin</button></Link>
+          <Link to="/"><button className="outlined">Sign-in</button></Link>
         </div>
 
         <div className="form-box">
@@ -28,7 +39,7 @@ const AdminPage = () => {
             <input type="password" placeholder="Enter Password" required />
             <button type="submit" className="submit-btn">Login</button>
           </form>
-          <p><Link to="/">Back to User Login</Link></p>
+          
         </div>
       </div>
     </div>
