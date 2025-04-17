@@ -1,27 +1,66 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Auth.css';
+import axios from 'axios';
+import http from '../request/http.ts';
+import GuestLayout from './GuestLayout.jsx';
 
 const LoginPage = () => {
+  const [error, setError]= useState([]);
+
+  const handleSubmit  = (e: any) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+
+
+    http.post('login', {
+     email: formData.get('email'),
+     password: formData.get('password')
+    }).then(async (res)=>{
+      console.log(res.data)
+      await localStorage.setItem("token", res.data.token)
+      window.location.href="/dashboard"
+    }).catch(err => {
+      if(axios.isAxiosError(err)) {
+        if(err.status === 422) {
+          const errData = err.response.data;
+
+          if(errData.errors) {
+            setError(errData.errors);
+          } else {
+            setError([{"email": 'Something went wrong'}]);
+          }
+
+        }
+      }
+    })
+  }
+
+  useEffect(() => {
+      console.log(error);
+  }, [error])
+
   return (
+    <GuestLayout>
     <div className="container">
       {/* LEFT PANEL */}
       <div className="left-panel">
-  <div className="branding">
-    <img src="/Logo.png" alt="AnonEdu Logo" className="branding-logo" />
+        <div className="branding">
+          <img src="/Logo.png" alt="AnonEdu Logo" className="branding-logo" />
 
-    <div className="desc">
-      <strong>Silent Voice – Speak Freely, Improve Together</strong>
-      <p>
-        Silent Voice is a secure and anonymous student feedback system
-        designed to bridge the communication gap between students and
-        educators. It allows students to share their thoughts, concerns,
-        and suggestions without revealing their identity, ensuring honest
-        and constructive feedback.
-      </p>
-    </div>
-  </div>
-</div>
+          <div className="desc">
+            <strong>Silent Voice – Speak Freely, Improve Together</strong>
+            <p>
+              Silent Voice is a secure and anonymous student feedback system
+              designed to bridge the communication gap between students and
+              educators. It allows students to share their thoughts, concerns,
+              and suggestions without revealing their identity, ensuring honest
+              and constructive feedback.
+            </p>
+          </div>
+        </div>
+      </div>
 
       {/* RIGHT PANEL */}
       <div className="right-panel">
@@ -33,20 +72,23 @@ const LoginPage = () => {
             <button className="outlined">Admin</button>
           </Link>
         </div>
-
-        <div className="form-box">
-          <h2>Proceed To Login</h2>
-          <label>Email</label>
-          <input type="text" placeholder="Enter Email" />
-          <label>Password</label>
-          <input type="password" placeholder="Enter Password" />
-          <button className="submit-btn">Login</button>
-          <p style={{ textAlign: 'center', marginTop: '10px' }}>
-            <Link to="/forgot-password" style={{ fontSize: '0.9em' }}>Forgot Password?</Link>
-          </p>
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="form-box">
+            <h2>Proceed To Login</h2>
+            <label>Email</label>
+            <input type="text" placeholder="Enter Email" name="email" />
+            {error.email ? <span style={{color: 'red'}}>{error.email}</span>: null}
+            <label>Password</label>
+            <input type="password" placeholder="Enter Password" name="password" />
+            <button className="submit-btn">Login</button>
+            <p style={{ textAlign: 'center', marginTop: '10px' }}>
+              <Link to="/forgot-password" style={{ fontSize: '0.9em' }}>Forgot Password?</Link>
+            </p>
+          </div>
+        </form>
       </div>
     </div>
+</GuestLayout>
   );
 };
 
