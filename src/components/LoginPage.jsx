@@ -8,7 +8,7 @@ const LoginPage = () => {
       {/* LEFT PANEL */}
       <div className="left-panel">
   <div className="branding">
-    <img src="/Logo.png" alt="AnonEdu Logo" className="branding-logo" />
+    <img src="/Logo.png" alt="Silent voice Logo" className="branding-logo" />
 
     <div className="desc">
       <strong>Silent Voice – Speak Freely, Improve Together</strong>
