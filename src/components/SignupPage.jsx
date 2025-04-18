@@ -1,50 +1,59 @@
-import React from 'react';
-// eslint-disable-next-line no-unused-vars
-import { Link } from 'react-router-dom';
-import './Auth.css'; // Make sure you're importing the shared CSS
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './Auth.css';
 
 const SignupPage = () => {
+  const [error, setError] = useState({});
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const payload = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      password: formData.get('password'),
+      password_confirmation: formData.get('password_confirmation'),
+    };
+
+    try {
+      const res = await fetch('https://surely-enabled-terrapin.ngrok-free.app/api/register', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) navigate('/login');
+      else {
+        const err = await res.json();
+        setError(err.errors || {});
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <div className="container">
-      {/* LEFT PANEL */}
+    <div className="auth-container">
       <div className="left-panel">
-  <div className="branding">
-    <img src="/Logo.png" alt="AnonEdu Logo" className="branding-logo" />
-
-    <div className="desc">
-      <strong>Silent Voice – Speak Freely, Improve Together</strong>
-      <p>
-        Silent Voice is a secure and anonymous student feedback system
-        designed to bridge the communication gap between students and
-        educators. It allows students to share their thoughts, concerns,
-        and suggestions without revealing their identity, ensuring honest
-        and constructive feedback.
-      </p>
-    </div>
-  </div>
-</div>
-      {/* RIGHT PANEL */}
+        <div className="branding">
+          <img src="/Logo.png" alt="Silent Voice Logo" className="branding-logo" />
+          <p>Silent Voice – Speak Freely, Improve Together</p>
+        </div>
+      </div>
       <div className="right-panel">
-        <div className="top-buttons">
-          <button onClick={() => window.location.href = '/'}>Login</button>
-          <button onClick={() => window.location.href = '/admin'}>Admin</button>
-        </div>
-
-        <div className="form-box">
-          <h2>Sign Up</h2>
-          <form>
-            <label>Full Name</label>
-            <input type="text" placeholder="Enter Full Name" required />
-
-            <label>Email</label>
-            <input type="email" placeholder="Enter Email" required />
-
-            <label>Password</label>
-            <input type="password" placeholder="Create Password" required />
-
-            <button type="submit" className="submit-btn">Sign Up</button>
-          </form>
-        </div>
+        <h2>Create an Account</h2>
+        <form onSubmit={handleSubmit}>
+          <input name="name" placeholder="Full Name" />
+          {error.name && <span style={{ color: 'red' }}>{error.name}</span>}
+          <input name="email" placeholder="Email" />
+          {error.email && <span style={{ color: 'red' }}>{error.email}</span>}
+          <input name="password" type="password" placeholder="Password" />
+          {error.password && <span style={{ color: 'red' }}>{error.password}</span>}
+          <input name="password_confirmation" type="password" placeholder="Confirm Password" />
+          <button className="submit-btn">Register</button>
+        </form>
+        <Link to="/">Already have an account? Login</Link>
       </div>
     </div>
   );

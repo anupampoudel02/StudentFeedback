@@ -1,53 +1,78 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import GuestLayout from './GuestLayout.jsx';
 import './Auth.css';
 
 const LoginPage = () => {
+  const [error, setError] = useState({});
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+
+    const payload = {
+      email: formData.get('email'),
+      password: formData.get('password')
+    };
+
+    try {
+      const res = await fetch('http://feedback-backend.test/api/login', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem("token", data.token);
+        
+        window.location.href = "/dashboard"
+      } else {
+        const err = await res.json();
+        setError(err.errors || { general: 'Login failed.' });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
-    <div className="container">
-      {/* LEFT PANEL */}
-      <div className="left-panel">
-  <div className="branding">
-    <img src="/Logo.png" alt="Silent voice Logo" className="branding-logo" />
-
-    <div className="desc">
-      <strong>Silent Voice – Speak Freely, Improve Together</strong>
-      <p>
-        Silent Voice is a secure and anonymous student feedback system
-        designed to bridge the communication gap between students and
-        educators. It allows students to share their thoughts, concerns,
-        and suggestions without revealing their identity, ensuring honest
-        and constructive feedback.
-      </p>
-    </div>
-  </div>
-</div>
-
-      {/* RIGHT PANEL */}
-      <div className="right-panel">
-        <div className="top-buttons">
-          <Link to="/signup">
-            <button className="outlined">Sign-up</button>
-          </Link>
-          <Link to="/admin">
-            <button className="outlined">Admin</button>
-          </Link>
+    <GuestLayout>
+      <div className="container">
+        <div className="left-panel">
+          <div className="branding">
+            <img src="/Logo.png" alt="Silent Voice Logo" className="branding-logo" />
+            <div className="desc">
+              <strong>Silent Voice – Speak Freely, Improve Together</strong>
+              <p>Silent Voice is a secure and anonymous student feedback system designed to bridge the communication gap between students and educators.</p>
+            </div>
+          </div>
         </div>
-
-        <div className="form-box">
-          <h2>Proceed To Login</h2>
-          <label>Email</label>
-          <input type="text" placeholder="Enter Email" />
-          <label>Password</label>
-          <input type="password" placeholder="Enter Password" />
-          <button className="submit-btn">Login</button>
-          <p style={{ textAlign: 'center', marginTop: '10px' }}>
-            <Link to="/forgot-password" style={{ fontSize: '0.9em' }}>Forgot Password?</Link>
-          </p>
+        <div className="right-panel">
+          <div className="top-buttons">
+            <Link to="/signup"><button className="outlined">Sign-up</button></Link>
+            <Link to="/admin"><button className="outlined">Admin</button></Link>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <div className="form-box">
+              <h2>Proceed To Login</h2>
+              <label>Email</label>
+              <input type="email" name="email" placeholder="Enter Email" />
+              {error.email && <span style={{ color: 'red' }}>{error.email}</span>}
+              <label>Password</label>
+              <input type="password" name="password" placeholder="Enter Password" />
+              {error.password && <span style={{ color: 'red' }}>{error.password}</span>}
+              <button className="submit-btn">Login</button>
+              <p style={{ textAlign: 'center', marginTop: '10px' }}>
+                <Link to="/forgot-password" style={{ fontSize: '0.9em' }}>Forgot Password?</Link>
+              </p>
+            </div>
+          </form>
         </div>
       </div>
-    </div>
+    </GuestLayout>
   );
 };
 
-export default LoginPage; 
+export default LoginPage;
