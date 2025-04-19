@@ -6,20 +6,26 @@ import ForgotPassword from './components/ForgotPassword';
 import VerifyOTP from './components/VerifyOTP';
 import ResetPassword from './components/ResetPassword';
 import AdminPage from './components/AdminPage';
+import Dashboard from './components/Dashboard';
 import './components/Auth.css';
+import  { Toaster } from 'react-hot-toast';
 
 function App() {
-  return (
+  return ( <>
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/verify-otp" element={<VerifyOTP />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
+    <Toaster />
+
+  </>
   );
 }
 
