@@ -38,7 +38,7 @@ const SignupPage = () => {
       <div className="left-panel">
         <div className="branding">
           <img src="/Logo.png" alt="Silent Voice Logo" className="branding-logo" />
-          <p>Silent Voice – Speak Freely, Improve Together</p>
+          <p>Silent Voice - Speak Freely, Improve Together</p>
         </div>
       </div>
       <div className="right-panel">
@@ -53,7 +53,7 @@ const SignupPage = () => {
           <input name="password_confirmation" type="password" placeholder="Confirm Password" />
           <button className="submit-btn">Register</button>
         </form>
-        <Link to="/">Already have an account? Login</Link>
+          <Link to="/login">Already have an account? Login</Link>
       </div>
     </div>
   );

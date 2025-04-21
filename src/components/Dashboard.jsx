@@ -4,10 +4,12 @@ import http from "../request/http";
 import { Link, useSearchParams } from "react-router-dom";
 import './Dashboard.css';
 
+
 export default function Dashboard() {
     const [user, setUser] = useState();
     const [loading, setLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState();
+    const [modules, setModules] = useState();
     
   const [isAnonymous, setIsAnonymous] = useState(false);
 
@@ -33,6 +35,12 @@ export default function Dashboard() {
         }).catch(err => {
             // handleLogout();
         }).finally(() => setLoading(false))
+
+        http.get("/modules/list").then((res) => {
+            if(res.data) {
+                setModules(res.data);
+            }
+        })
 
     }, [])
 
@@ -80,32 +88,22 @@ export default function Dashboard() {
 
       <div className="module-grid">
         {/* Module Cards with Links */}
-        <Link to="/course/1" className="module-card">
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/3137b64dcae99c3da54cd9d650b50b0fed2b96ed?placeholderIfAbsent=true"
-            alt="Module"
-            className="module-image"
-          />
-          <p className="module-title">5CS024/HJI: Collaborative Development</p>
-        </Link>
+        {
+            modules?.data?.map((module) => (
+                <>
+            <Link to="/input-design" className="module-card">
+            <img
+                src={module.image}
+                alt="Module"
+                className="module-image"
+            />
+            <p className="module-title">{module.title}</p>
+            </Link>
+                </>
 
-        <Link to="/course/2" className="module-card">
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/3137b64dcae99c3da54cd9d650b50b0fed2b96ed?placeholderIfAbsent=true"
-            alt="Module"
-            className="module-image"
-          />
-          <p className="module-title">5CS024/HJI: Collaborative Development</p>
-        </Link>
+            ))
 
-        <Link to="/course/3" className="module-card">
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/3137b64dcae99c3da54cd9d650b50b0fed2b96ed?placeholderIfAbsent=true"
-            alt="Module"
-            className="module-image"
-          />
-          <p className="module-title">5CS024/HJI: Collaborative Development</p>
-        </Link>
+        }
       </div>
     </main>
 
