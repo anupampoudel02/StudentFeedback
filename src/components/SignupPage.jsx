@@ -1,89 +1,62 @@
 import React, { useState } from 'react';
-import './Auth.css'; // Ensure that the correct shared CSS is imported
+import { Link, useNavigate } from 'react-router-dom';
+import './Auth.css';
 
 const SignupPage = () => {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [error, setError] = useState({});
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle signup logic here (e.g., API call)
-    console.log({ fullName, email, password });
+    const formData = new FormData(e.currentTarget);
+    const payload = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      password: formData.get('password'),
+      password_confirmation: formData.get('password_confirmation'),
+    };
+
+    try {
+      const res = await fetch('https://surely-enabled-terrapin.ngrok-free.app/api/register', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) navigate('/login');
+      else {
+        const err = await res.json();
+        setError(err.errors || {});
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
     <div className="auth-container">
-      {/* LEFT PANEL */}
       <div className="left-panel">
         <div className="branding">
-          <img src="/Logo.png" alt="AnonEdu Logo" className="branding-logo" />
-          <div className="desc">
-            <strong>Silent Voice – Speak Freely, Improve Together</strong>
-            <p>
-              Silent Voice is a secure and anonymous student feedback system designed to bridge the communication gap between students and educators. It allows students to share their thoughts, concerns, and suggestions without revealing their identity, ensuring honest and constructive feedback.
-            </p>
-          </div>
+          <img src="/Logo.png" alt="Silent Voice Logo" className="branding-logo" />
+          <p>Silent Voice - Speak Freely, Improve Together</p>
         </div>
       </div>
-
-      {/* RIGHT PANEL */}
       <div className="right-panel">
-        <div className="top-buttons">
-          <button onClick={() => window.location.href = '/'}>Login</button>
-          <button onClick={() => window.location.href = '/admin'}>Admin</button>
-        </div>
-
-        <div className="form-box">
-          <h2>Sign Up</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="fullName">Full Name</label>
-              <input
-                type="text"
-                id="fullName"
-                name="fullName"
-                placeholder="Enter Full Name"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Enter Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Create Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-
-            <button type="submit" className="submit-btn">Sign Up</button>
-          </form>
-        </div>
+        <h2>Create an Account</h2>
+        <form onSubmit={handleSubmit}>
+          <input name="name" placeholder="Full Name" />
+          {error.name && <span style={{ color: 'red' }}>{error.name}</span>}
+          <input name="email" placeholder="Email" />
+          {error.email && <span style={{ color: 'red' }}>{error.email}</span>}
+          <input name="password" type="password" placeholder="Password" />
+          {error.password && <span style={{ color: 'red' }}>{error.password}</span>}
+          <input name="password_confirmation" type="password" placeholder="Confirm Password" />
+          <button className="submit-btn">Register</button>
+        </form>
+          <Link to="/login">Already have an account? Login</Link>
       </div>
     </div>
   );
 };
 
 export default SignupPage;
-
-
