@@ -91,7 +91,7 @@ export default function Dashboard() {
         {
             modules?.data?.map((module) => (
                 <>
-            <Link to="/input-design" className="module-card">
+            <Link to={`/module/${module.id}`} className="module-card">
             <img
                 src={module.image}
                 alt="Module"
