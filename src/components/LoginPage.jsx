@@ -6,6 +6,7 @@ import './Auth.css';
 const LoginPage = () => {
   const [error, setError] = useState({});
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,6 +17,7 @@ const LoginPage = () => {
       password: formData.get('password')
     };
 
+    setLoading(true);
     try {
       const res = await fetch('https://surely-enabled-terrapin.ngrok-free.app/api/login', {
         method: 'POST',
@@ -34,6 +36,8 @@ const LoginPage = () => {
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,7 +67,7 @@ const LoginPage = () => {
               <label>Password</label>
               <input type="password" name="password" placeholder="Enter Password" />
               {error.password && <span style={{ color: 'red' }}>{error.password}</span>}
-              <button className="submit-btn">Login</button>
+              <button className="submit-btn" style={{background: loading ? 'gray' : ''}} disabled={loading}>{loading ? 'Loading...' :  'Login'}</button>
               <p style={{ textAlign: 'center', marginTop: '10px' }}>
                 <Link to="/forgot-password" style={{ fontSize: '0.9em' }}>Forgot Password?</Link>
               </p>

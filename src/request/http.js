@@ -5,7 +5,7 @@ const token = localStorage.getItem('token')
 
 
 const http = axios.create({
-    baseURL: "http://feedback-backend.test/api",
+    baseURL: "https://surely-enabled-terrapin.ngrok-free.app/api",
 })
 
 
