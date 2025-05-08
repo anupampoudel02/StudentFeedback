@@ -1,8 +1,11 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import http from '../request/http';
 import './Auth.css';
 
 const SignupPage = () => {
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
   const navigate = useNavigate();
 
@@ -16,21 +19,19 @@ const SignupPage = () => {
       password_confirmation: formData.get('password_confirmation'),
     };
 
-    try {
-      const res = await fetch('https://surely-enabled-terrapin.ngrok-free.app/api/register', {
-        method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      if (res.ok) navigate('/login');
-      else {
-        const err = await res.json();
-        setError(err.errors || {});
+    http.post('/register', payload).then((res) => {
+      if(res.status) {
+        navigate('/login');
       }
-    } catch (err) {
-      console.error(err);
-    }
+    })
+      .catch(err => {
+        if(axios.isAxiosError(err)) {
+          if(err.response.data) {
+            setError(err.response.data.errors);  
+          }
+        }
+      })
+      .finally(() => setLoading(false))
   };
 
   return (
@@ -51,7 +52,7 @@ const SignupPage = () => {
           <input name="password" type="password" placeholder="Password" />
           {error.password && <span style={{ color: 'red' }}>{error.password}</span>}
           <input name="password_confirmation" type="password" placeholder="Confirm Password" />
-          <button className="submit-btn">Register</button>
+          <button className="submit-btn" disabled={loading}>Register</button>
         </form>
           <Link to="/login">Already have an account? Login</Link>
       </div>

@@ -410,3 +410,218 @@
     margin: 20px 0;
   }
   
+  /* Module Feedback Styles */
+  .statsCard {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .statItem {
+    text-align: center;
+  }
+  
+  .statValue {
+    display: block;
+    font-size: 24px;
+    font-weight: 600;
+    color: #000;
+    margin-bottom: 5px;
+  }
+  
+  .statLabel {
+    font-size: 14px;
+    color: #6c757d;
+  }
+  
+  .feedbackList {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .feedbackCard {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  
+  .feedbackCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .feedbackHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .userInfo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .userInitial {
+    width: 40px;
+    height: 40px;
+    background-color: #000;
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  
+  .userName {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+  }
+  
+  .ratingDisplay {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .starFilled {
+    color: #ffc107;
+    font-size: 18px;
+  }
+  
+  .starEmpty {
+    color: #dee2e6;
+    font-size: 18px;
+  }
+  
+  .ratingDate {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #6c757d;
+  }
+  
+  .feedbackText {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #212529;
+    margin: 0;
+  }
+  
+  .noFeedback {
+    text-align: center;
+    padding: 30px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    color: #6c757d;
+  }
+  
+  @media (width <= 991px) {
+    .statsCard {
+      padding: 15px;
+    }
+  
+    .statValue {
+      font-size: 20px;
+    }
+  
+    .statLabel {
+      font-size: 12px;
+    }
+  }
+  
+  @media (width <= 640px) {
+    .feedbackHeader {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+  
+    .ratingDisplay {
+      margin-left: 50px;
+    }
+  
+    .userInitial {
+      width: 32px;
+      height: 32px;
+      font-size: 16px;
+    }
+  }
+  
+  /* Add these new styles for edit functionality */
+  .editFeedbackInput {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 10px 0;
+    resize: vertical;
+    font-family: inherit;
+  }
+  
+  .editStars {
+    display: flex;
+    gap: 4px;
+  }
+  
+  .editStarButton {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 18px;
+    transition: transform 0.2s;
+  }
+  
+  .editStarButton:hover {
+    transform: scale(1.2);
+  }
+  
+  .feedbackActions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    justify-content: flex-end;
+  }
+  
+  .editButton, .cancelButton {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .editButton {
+    background-color: #000;
+    color: white;
+    border: none;
+  }
+  
+  .editButton:hover {
+    background-color: #333;
+  }
+  
+  .cancelButton {
+    background-color: transparent;
+    color: #666;
+    border: 1px solid #ccc;
+  }
+  
+  .cancelButton:hover {
+    background-color: #f5f5f5;
+  }

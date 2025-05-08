@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import GuestLayout from './GuestLayout.jsx';
 import './Auth.css';
+import http from '../request/http.js';
+import axios from 'axios';
 
 const LoginPage = () => {
   const [error, setError] = useState({});
@@ -18,27 +20,24 @@ const LoginPage = () => {
     };
 
     setLoading(true);
-    try {
-      const res = await fetch('https://surely-enabled-terrapin.ngrok-free.app/api/login', {
-        method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true'},
-        body: JSON.stringify(payload)
-      });
 
-      if (res.ok) {
-        const data = await res.json();
-        localStorage.setItem("token", data.token);
-        
+    http.post('/login', payload).then((res) => {
+      if(res.status === 200) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data));
+
         window.location.href = "/dashboard"
-      } else {
-        const err = await res.json();
-        setError(err.errors || { general: 'Login failed.' });
       }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+    })
+      .catch(err => {
+        if(axios.isAxiosError(err)) {
+          if(err.response.data) {
+            setError(err.response.data.errors);  
+          }
+        }
+      })
+      .finally(() => setLoading(false))
+
   };
 
   return (
