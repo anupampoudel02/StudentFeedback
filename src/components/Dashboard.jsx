@@ -87,23 +87,27 @@ export default function Dashboard() {
       </div>
 
       <div className="module-grid">
-        {/* Module Cards with Links */}
-        {
-            modules?.data?.map((module) => (
-                <>
-            <Link to={`/module/${module.id}`} className="module-card">
-            <img
-                src={module.image}
-                alt="Module"
-                className="module-image"
-            />
-            <p className="module-title">{module.name}</p>
+        {modules?.data?.map((module) => (
+            <Link key={module.id} to={`/module/${module.id}`} className="module-card">
+                <img
+                    src={module.image}
+                    alt="Module"
+                    className="module-image"
+                />
+                <div className="module-content">
+                    <h3 className="module-title">{module.name}</h3>
+                    <div className="module-stats">
+                        <div className="rating-wrap">
+                            <span className="star-icon">★</span>
+                            <span className="rating-value">{module.rating_avg || 0}</span>
+                        </div>
+                        <div className="review-count">
+                            {module.reviews_count || 0} reviews
+                        </div>
+                    </div>
+                </div>
             </Link>
-                </>
-
-            ))
-
-        }
+        ))}
       </div>
     </main>
 
