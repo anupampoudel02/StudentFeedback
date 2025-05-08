@@ -20,6 +20,25 @@ export default function Module() {
   const [module, setModule] = useState({});
   const [loading, setLoading] = useState(false);
 
+
+    const fetchModule = async (isMounted = true) => {
+      if (!id) return;
+      setLoading(true);
+      try {
+        const res = await http.get(`/modules/${id}`);
+        if (isMounted && res.data) {
+          setModule(res.data.data);
+        }
+      } catch (error) {
+        if (isMounted) {
+          console.error("Error fetching module:", error);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
   const handleSubmit = async () => {
     
     const moduleReviewData = {
@@ -41,16 +60,8 @@ export default function Module() {
     try {
       await http.post(`/modules/${id}/reviews`, moduleReviewData);
       console.log("✅ Module review submitted successfully!");
-
-      //
-      // // Send teacher review to the backend
-      // await axios.post("https://your-api-url.com/api/teachers/3/modules/1/reviews", teacherReviewData, {
-      //   headers: {
-      //     Authorization: `70|Ecsp0EpA7q1Blj2VYNOWDtzZjmmHygsy1xOsi8go40730832`, // Replace with the actual auth token
-      //   }
-      // });
-      //
       console.log("✅ Teacher review submitted successfully!");
+      fetchModule();
     } catch (error) {
       console.error("❌ Error submitting reviews:", error.response ? error.response.data : error.message);
     }
@@ -60,26 +71,7 @@ export default function Module() {
   useEffect(() => {
     let isMounted = true; // flag to track if the component is still mounted
 
-    const fetchModule = async () => {
-      if (!id) return;
-      setLoading(true);
-      try {
-        const res = await http.get(`/modules/${id}`);
-        if (isMounted && res.data) {
-          setModule(res.data.data);
-        }
-      } catch (error) {
-        if (isMounted) {
-          console.error("Error fetching module:", error);
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    fetchModule();
+    fetchModule(isMounted);
 
     return () => {
       isMounted = false; // cleanup to prevent state updates after unmount
@@ -112,7 +104,52 @@ export default function Module() {
                       Submit
                     </button>
                   </div>
-                  {<FeedbackList />}
+                  <section className={styles.feedbackSection}></section>
+                    <h2 className={styles.feedbackTitle}>Module Feedback</h2>
+                    
+                    <div className={styles.statsCard}>
+                      <div className={styles.statItem}>
+                        <span className={styles.statValue}>{module?.rating_avg || 0}</span>
+                        <span className={styles.statLabel}>Average Rating</span>
+                      </div>
+                      <div className={styles.statItem}>
+                        <span className={styles.statValue}>{module?.reviews_count || 0}</span>
+                        <span className={styles.statLabel}>Total Reviews</span>
+                      </div>
+                    </div>
+
+                    {module?.feedbacks?.length > 0 ? (
+                      <div className={styles.feedbackList}>
+                        {module.feedbacks.map((review, index) => (
+                          <div key={index} className={styles.feedbackCard}>
+                            <div className={styles.feedbackHeader}>
+                              <div className={styles.userInfo}>
+                                <div className={styles.userInitial}>
+                                  {review.user.name?.charAt(0) || "A"}
+                                </div>
+                                <span className={styles.userName}>{review.user.name || "Anonymous"}</span>
+                              </div>
+                              <div className={styles.ratingDisplay}>
+                                {[...Array(5)].map((_, i) => (
+                                  <span key={i} className={i < review.rating ? styles.starFilled : styles.starEmpty}>
+                                    ★
+                                  </span>
+                                ))}
+                                <span className={styles.ratingDate}>
+                                  {new Date(review.created_at).toLocaleDateString()}
+                                </span>
+                              </div>
+                            </div>
+                            <p className={styles.feedbackText}>{review.feedback}</p>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className={styles.noFeedback}>
+                        <p>No feedback available for this module yet.</p>
+                      </div>
+                    )}
+                  {/* {<FeedbackList />} */}
                 </section>
               </main>
             </>
