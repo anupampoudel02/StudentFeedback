@@ -8,7 +8,7 @@ import ResetPassword from './components/ResetPassword';
 import VerifyOTP from './components/VerifyOTP';
 import Dashboard from './components/Dashboard'; 
 import Module from './components/Module/Module';
-
+import Profile from './components/Profile/Profile';
 
 const App = () => {
   return (
@@ -22,6 +22,7 @@ const App = () => {
       <Route path="/verify-otp" element={<VerifyOTP />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/module/:id" element={<Module />} />
+      <Route path="/profile" element={<Profile />} />
     </Routes>
   );
 };
