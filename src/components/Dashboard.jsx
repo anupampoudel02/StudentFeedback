@@ -97,7 +97,7 @@ export default function Dashboard() {
                 alt="Module"
                 className="module-image"
             />
-            <p className="module-title">{module.title}</p>
+            <p className="module-title">{module.name}</p>
             </Link>
                 </>
 

@@ -30,32 +30,26 @@ export default function Module() {
     };
 
     // Prepare the data for teacher review
-    const teacherReviewData = {
-      teacher_id: 3,  
-      module_id: 1,   
-      user_id: 2,    
-      rating: moduleRating,
-      feedback: teacherReview
-    };
-
+    // const teacherReviewData = {
+    //   teacher_id: 3,  
+    //   module_id: 1,   
+    //   user_id: 2,    
+    //   rating: moduleRating,
+    //   feedback: teacherReview
+    // };
+    //
     try {
-      const token = localStorage.getItem('token');
-      
-      await axios.post(`https://surely-enabled-terrapin.ngrok-free.app/api/modules/${id}/reviews`, moduleReviewData, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
+      await http.post(`/modules/${id}/reviews`, moduleReviewData);
       console.log("✅ Module review submitted successfully!");
 
-      // Send teacher review to the backend
-      await axios.post("https://your-api-url.com/api/teachers/3/modules/1/reviews", teacherReviewData, {
-        headers: {
-          Authorization: `70|Ecsp0EpA7q1Blj2VYNOWDtzZjmmHygsy1xOsi8go40730832`, // Replace with the actual auth token
-        }
-      });
-
+      //
+      // // Send teacher review to the backend
+      // await axios.post("https://your-api-url.com/api/teachers/3/modules/1/reviews", teacherReviewData, {
+      //   headers: {
+      //     Authorization: `70|Ecsp0EpA7q1Blj2VYNOWDtzZjmmHygsy1xOsi8go40730832`, // Replace with the actual auth token
+      //   }
+      // });
+      //
       console.log("✅ Teacher review submitted successfully!");
     } catch (error) {
       console.error("❌ Error submitting reviews:", error.response ? error.response.data : error.message);
@@ -108,8 +102,8 @@ export default function Module() {
                   {/*   onTextChange={(val) => setModuleReview(val)} */}
                   {/* /> */}
                   <TeacherRating
-                    onRatingChange={(val) => setTeacherRating(val)}
-                    onTextChange={(val) => setTeacherReview(val)}
+                    onRatingChange={(val) => setModuleRating(val)}
+                    onTextChange={(val) => setModuleReview(val)}
                     tutor={module.tutor}
                     image={module.image}
                   />
