@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Auth.css'; 
 import toast from 'react-hot-toast';
+import http from '../request/http';
+import axios from 'axios';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -11,27 +13,23 @@ const ForgotPassword = () => {
   e.preventDefault();
 
   try {
-    const res = await fetch('https://surely-enabled-terrapin.ngrok-free.app/api/forgot-password', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email }),
-    });
+    const res = await http.post('/forgot-password', { email });
 
-    if (res.ok) {
+    if (res.status) {
       toast('Here is your toast.');
       setMessage('A reset password link has been sent to your email.');
       setError('');
     } else {
-      const err = await res.json();
-      setError(err.message || 'Failed to send reset link.');
-      setMessage('');
     }
   } catch (err) {
-    setError('Network error: Failed to send reset link.');
-    setMessage('');
+      if(axios.isAxiosError(err)) {
+        setError(err.response.data.message|| 'Failed to send reset link.');
+        setMessage('');
+      } else {
+        setError('Network error: Failed to send reset link.');
+        setMessage('');
+      }
+
   }
 };
 
