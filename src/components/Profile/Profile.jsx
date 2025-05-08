@@ -3,7 +3,7 @@ import AuthLayout from "../AuthLayout";
 import Header from "../Header";
 import styles from "./Profile.module.css";
 import http from "../../request/http";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function Profile() {
   const [user, setUser] = useState({
@@ -35,6 +35,7 @@ export default function Profile() {
 
   return (
     <AuthLayout>
+      <Toaster />
       <Header title="Feedback" />
       <main className={styles.container}>
         <div className={styles.profileCard}>
