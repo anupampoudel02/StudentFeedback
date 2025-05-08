@@ -20,26 +20,29 @@ export default function Module() {
   const { id } = useParams();
   const [module, setModule] = useState({});
   const [loading, setLoading] = useState(false);
+  const [editingFeedback, setEditingFeedback] = useState(null);
+  const [editedRating, setEditedRating] = useState(0);
+  const [editedText, setEditedText] = useState("");
 
-
-    const fetchModule = async (isMounted = true) => {
-      if (!id) return;
-      setLoading(true);
-      try {
-        const res = await http.get(`/modules/${id}`);
-        if (isMounted && res.data) {
-          setModule(res.data.data);
-        }
-      } catch (error) {
-        if (isMounted) {
-          console.error("Error fetching module:", error);
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+  const user = JSON.parse(localStorage.getItem('user'))
+  const fetchModule = async (isMounted = true) => {
+    if (!id) return;
+    setLoading(true);
+    try {
+      const res = await http.get(`/modules/${id}`);
+      if (isMounted && res.data) {
+        setModule(res.data.data);
       }
-    };
+    } catch (error) {
+      if (isMounted) {
+        console.error("Error fetching module:", error);
+      }
+    } finally {
+      if (isMounted) {
+        setLoading(false);
+      }
+    }
+  };
   const handleSubmit = async () => {
     
     const moduleReviewData = {
@@ -74,6 +77,25 @@ export default function Module() {
     }
   };
 
+  const handleEdit = async (review) => {
+    if (editingFeedback?.id === review.id) {
+      try {
+        await http.put(`/modules/${id}/reviews/${review.id}`, {
+          rating: editedRating,
+          feedback: editedText
+        });
+        setEditingFeedback(null);
+        fetchModule();
+        toast.success("Feedback updated successfully!");
+      } catch (error) {
+        toast.error("Failed to update feedback");
+      }
+    } else {
+      setEditingFeedback(review);
+      setEditedRating(review.rating);
+      setEditedText(review.feedback);
+    }
+  };
 
   useEffect(() => {
     let isMounted = true; // flag to track if the component is still mounted
@@ -138,17 +160,63 @@ export default function Module() {
                                 <span className={styles.userName}>{review.user.name || "Anonymous"}</span>
                               </div>
                               <div className={styles.ratingDisplay}>
-                                {[...Array(5)].map((_, i) => (
-                                  <span key={i} className={i < review.rating ? styles.starFilled : styles.starEmpty}>
-                                    ★
-                                  </span>
-                                ))}
+                                {editingFeedback?.id === review.id ? (
+                                  <div className={styles.editStars}>
+                                    {[...Array(5)].map((_, i) => (
+                                      <button
+                                        key={i}
+                                        type="button"
+                                        onClick={() => setEditedRating(i + 1)}
+                                        className={styles.editStarButton}
+                                      >
+                                        <span className={i < editedRating ? styles.starFilled : styles.starEmpty}>
+                                          ★
+                                        </span>
+                                      </button>
+                                    ))}
+                                  </div>
+                                ) : (
+                                  <>
+                                    {[...Array(5)].map((_, i) => (
+                                      <span key={i} className={i < review.rating ? styles.starFilled : styles.starEmpty}>
+                                        ★
+                                      </span>
+                                    ))}
+                                  </>
+                                )}
                                 <span className={styles.ratingDate}>
                                   {new Date(review.created_at).toLocaleDateString()}
                                 </span>
                               </div>
                             </div>
-                            <p className={styles.feedbackText}>{review.feedback}</p>
+                            {editingFeedback?.id === review.id ? (
+                              <textarea
+                                className={styles.editFeedbackInput}
+                                value={editedText}
+                                onChange={(e) => setEditedText(e.target.value)}
+                                rows={3}
+                              />
+                            ) : (
+                              <p className={styles.feedbackText}>{review.feedback}</p>
+                            )}
+                            {review.user.id === Number(user.user['id']) && (
+                              <div className={styles.feedbackActions}>
+                                <button
+                                  onClick={() => handleEdit(review)}
+                                  className={styles.editButton}
+                                >
+                                  {editingFeedback?.id === review.id ? 'Save' : 'Edit'}
+                                </button>
+                                {editingFeedback?.id === review.id && (
+                                  <button
+                                    onClick={() => setEditingFeedback(null)}
+                                    className={styles.cancelButton}
+                                  >
+                                    Cancel
+                                  </button>
+                                )}
+                              </div>
+                            )}
                           </div>
                         ))}
                       </div>

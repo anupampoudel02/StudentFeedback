@@ -24,6 +24,7 @@ const LoginPage = () => {
     http.post('/login', payload).then((res) => {
       if(res.status === 200) {
         localStorage.setItem("token", res.data.token);
+        localStorage.setItem("user", JSON.stringify(res.data));
 
         window.location.href = "/dashboard"
       }
