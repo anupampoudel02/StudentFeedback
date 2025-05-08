@@ -127,7 +127,7 @@ export default function Module() {
                     onRatingChange={(val) => setModuleRating(val)}
                     onTextChange={(val) => setModuleReview(val)}
                     tutor={module.tutor}
-                    image={module.image}
+                    image={module.image + '?ngrok-skip-browser-warning=true'}
                   />
                   <div style={{ textAlign: "center", marginTop: "40px" }}>
                     <button className={styles.submitButton} onClick={handleSubmit}>
