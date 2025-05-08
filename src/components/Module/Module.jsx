@@ -9,6 +9,7 @@ import FeedbackList from "./FeedbackList";
 import AuthLayout from "../AuthLayout";
 import { useParams, useSearchParams } from "react-router-dom";
 import http from "../../request/http";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function Module() {
   const [moduleRating, setModuleRating] = useState(0);
@@ -63,7 +64,13 @@ export default function Module() {
       console.log("✅ Teacher review submitted successfully!");
       fetchModule();
     } catch (error) {
-      console.error("❌ Error submitting reviews:", error.response ? error.response.data : error.message);
+      if(axios.isAxiosError(error)) {
+        if(error.response.data) {
+          if(error.response.data.message) {
+            toast.error(error.response.data.message)
+          }
+        }
+      }
     }
   };
 
@@ -80,6 +87,7 @@ export default function Module() {
 
   return (
     <AuthLayout>
+      <Toaster />
       {
         loading 
           ? "Loading..." 
