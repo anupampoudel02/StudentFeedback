@@ -17,6 +17,9 @@ export default function Module() {
 
   const [teacherRating, setTeacherRating] = useState(0);
   const [teacherReview, setTeacherReview] = useState("");
+  
+  const [isAnonymous, setIsAnonymous] = useState(false);
+
   const { id } = useParams();
   const [module, setModule] = useState({});
   const [loading, setLoading] = useState(false);
@@ -44,12 +47,14 @@ export default function Module() {
     }
   };
   const handleSubmit = async () => {
+
     
     const moduleReviewData = {
       module_id: 1, 
       user_id: 2,  
       rating: moduleRating,
-      feedback: moduleReview
+      feedback: moduleReview,
+      is_anonymous: isAnonymous
     };
 
     // Prepare the data for teacher review
@@ -107,6 +112,9 @@ export default function Module() {
     };
   }, [id]);
 
+
+  
+
   return (
     <AuthLayout>
       <Toaster />
@@ -128,6 +136,8 @@ export default function Module() {
                     onTextChange={(val) => setModuleReview(val)}
                     tutor={module.tutor}
                     image={module.image + '?ngrok-skip-browser-warning=true'}
+                    setIsAnonymous={setIsAnonymous}
+                    isAnonymous={isAnonymous}
                   />
                   <div style={{ textAlign: "center", marginTop: "40px" }}>
                     <button className={styles.submitButton} onClick={handleSubmit}>
