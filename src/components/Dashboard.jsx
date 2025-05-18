@@ -9,15 +9,11 @@ export default function Dashboard() {
   const [modules, setModules] = useState();
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isAnonymous, setIsAnonymous] = useState(false);
 
   const handleSearch = (value) => {
     setSearchQuery(value);
   };
 
-  const toggleAnonymous = () => {
-    setIsAnonymous(!isAnonymous);
-  };
 
   useEffect(() => {
     setLoading(true);
@@ -46,16 +42,6 @@ export default function Dashboard() {
       </Header>
 
       <main className="dashboard">
-        <div className="toggle-container">
-          <label className="toggle-label">Send anonymously</label>
-          <button
-            className={`toggle-switch ${isAnonymous ? "active" : ""}`}
-            onClick={toggleAnonymous}
-          >
-            <span className={`toggle-circle ${isAnonymous ? "active" : ""}`} />
-          </button>
-        </div>
-
         <div className="module-grid">
           {modules?.data?.map((module) => (
             <Link key={module.id} to={`/module/${module.id}`} className="module-card">
